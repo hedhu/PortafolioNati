@@ -91,9 +91,14 @@ function App() {
           
           {/* Main Title */}
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-serif font-black leading-tight text-white drop-shadow-md">
-            {translations[lang].heroTitle.split(' ').map((word, i) => (
-              i >= 4 ? <span key={i} className="bg-gradient-to-r from-amber-200 via-pink-200 to-purple-400 bg-clip-text text-transparent block sm:inline">{word} </span> : word + ' '
-            ))}
+            {translations[lang].heroTitle.split(' ').map((word, i) => {
+              const threshold = lang === 'es' ? 4 : 2;
+              return i >= threshold ? (
+                <span key={i} className="bg-gradient-to-r from-amber-200 via-pink-200 to-purple-400 bg-clip-text text-transparent block sm:inline">{word} </span>
+              ) : (
+                word + ' '
+              );
+            })}
           </h1>
           
           {/* Subtitle */}
@@ -317,7 +322,7 @@ function App() {
         </div>
 
         {/* Tip for the user on how to add actual files */}
-        <div className="mt-8 text-center bg-black/60 border border-white/10 rounded-xl p-4 max-w-2xl mx-auto shadow-lg">
+        {/* <div className="mt-8 text-center bg-black/60 border border-white/10 rounded-xl p-4 max-w-2xl mx-auto shadow-lg">
           <p className="text-xs text-amber-200/70 font-light flex items-center justify-center gap-2">
             <svg className="w-4 h-4 text-amber-400 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -327,7 +332,7 @@ function App() {
               : "Tip: To enable document downloads, place your PDF/Word files in the project's public folder: /public/docs/ with the specified names."
             }
           </p>
-        </div>
+        </div> */}
 
       </section>
 
@@ -419,7 +424,7 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="mt-10 bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl py-6 px-8 max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
+      <footer className="mt-10 mx-4 md:mx-auto bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl py-6 px-8 max-w-6xl flex flex-col sm:flex-row items-center justify-between gap-6 shadow-2xl">
         <div className="text-sm text-gray-200 text-center sm:text-left">
           &copy; {new Date().getFullYear()} <span className="font-bold text-white">{translations[lang].brandName}</span>. {translations[lang].footerRights}
         </div>
