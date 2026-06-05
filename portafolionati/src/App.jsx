@@ -68,19 +68,19 @@ function App() {
     <div className="min-h-screen text-white selection:bg-pink-500 selection:text-white font-sans relative pb-4 bg-[url('/backgroundPink.jpg')] bg-repeat bg-cover bg-fixed">
       
       {/* Floating Navbar */}
-      <nav className="fixed top-4 left-4 right-4 md:left-8 md:right-8 z-50 bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl py-3 px-6 shadow-2xl transition-all duration-300">
+      <nav className="fixed top-4 left-4 right-4 md:left-8 md:right-8 z-50 bg-black/70 backdrop-blur-md border border-white/10 rounded-2xl py-3 px-3 sm:px-6 shadow-2xl transition-all duration-300">
         <div className="max-w-7xl mx-auto flex items-center justify-between">
           
           {/* Logo Brand Area */}
-          <a href="#hero" className="flex items-center gap-3 group">
-            <div className="h-12 flex items-center shrink-0">
-              <img src="/logo.png" alt="NOZ" className="h-full w-auto max-w-[160px] object-contain drop-shadow-md" />
+          <a href="#hero" className="flex items-center gap-1.5 sm:gap-3 group">
+            <div className="h-9 sm:h-12 flex items-center shrink-0">
+              <img src="/logo.png" alt="NOZ" className="h-full w-auto max-w-[110px] sm:max-w-[160px] object-contain drop-shadow-md" />
             </div>
             <div className="flex flex-col">
-              <span className="text-lg font-bold tracking-tight text-white group-hover:text-purple-300 transition-colors">
+              <span className="text-xs sm:text-lg font-bold tracking-tight text-white group-hover:text-purple-300 transition-colors">
                 {translations[lang].brandName}
               </span>
-              <span className="text-[10px] text-gray-300 tracking-widest uppercase font-medium">Nathalie Orellana</span>
+              <span className="text-[9px] sm:text-[10px] text-gray-300 tracking-widest uppercase font-medium hidden min-[400px]:block">Nathalie Orellana</span>
             </div>
           </a>
 
@@ -97,13 +97,13 @@ function App() {
             </a>
           </div>
 
-          {/* Controls: Language Switcher */}
-          <div className="flex items-center gap-3">
+          {/* Controls: Language Switcher & Hamburger */}
+          <div className="flex items-center gap-1.5 sm:gap-3">
             <button 
               onClick={() => setLang(lang === 'es' ? 'en' : 'es')}
-              className="bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/20 px-4 py-1.5 rounded-full text-xs font-semibold tracking-wider transition-all duration-300 flex items-center gap-2 cursor-pointer shadow-lg"
+              className="bg-white/10 hover:bg-white/20 active:scale-95 text-white border border-white/20 px-2 py-1.5 sm:px-4 sm:py-1.5 rounded-full text-[10px] sm:text-xs font-semibold tracking-wider transition-all duration-300 flex items-center gap-1 sm:gap-2 cursor-pointer shadow-lg"
             >
-              <svg className="w-3.5 h-3.5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-3 h-3 sm:w-3.5 sm:h-3.5 text-amber-300" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
               </svg>
               {lang === 'es' ? '🇺🇸 EN' : '🇪🇸 ES'}
@@ -112,15 +112,15 @@ function App() {
             {/* Mobile Menu Button */}
             <button 
               onClick={() => setIsMenuOpen(!isMenuOpen)}
-              className="md:hidden p-2.5 text-gray-300 hover:text-white bg-white/10 hover:bg-white/20 rounded-full border border-white/20 active:scale-95 transition-all cursor-pointer shadow-lg"
+              className="md:hidden p-1.5 sm:p-2.5 text-gray-300 hover:text-white bg-white/10 hover:bg-white/20 rounded-full border border-white/20 active:scale-95 transition-all cursor-pointer shadow-lg"
               aria-label="Toggle Menu"
             >
               {isMenuOpen ? (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
                 </svg>
               ) : (
-                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-5 h-5 sm:w-6 sm:h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
                 </svg>
               )}
@@ -164,7 +164,7 @@ function App() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="pt-32 md:pt-44 pb-10 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative">
+      <section id="hero" className="pt-36 sm:pt-40 md:pt-44 pb-10 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative">
         <div className="flex-1 space-y-6 text-left">
           
           {/* Badge */}
@@ -422,7 +422,7 @@ function App() {
 
       {/* Contact Section */}
       <section id="contact" className="py-12 px-6 max-w-4xl mx-auto scroll-mt-24">
-        <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-3xl p-8 md:p-12 shadow-2xl relative overflow-hidden text-white">
+        <div className="bg-black/60 backdrop-blur-md border border-white/10 rounded-3xl p-6 sm:p-8 md:p-12 shadow-2xl relative overflow-hidden text-white">
           
           <div className="absolute top-0 right-0 w-44 h-44 bg-pink-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
@@ -439,7 +439,7 @@ function App() {
             
             {/* Form */}
             <form onSubmit={handleFormSubmit} className="space-y-4">
-              <div className="grid grid-cols-2 gap-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                 <input 
                   type="text" 
                   required
@@ -506,9 +506,9 @@ function App() {
               </p>
               <a 
                 href="mailto:contacto@noztraducciones.com" 
-                className="text-lg font-bold text-white hover:text-purple-300 transition-colors inline-flex items-center gap-2 underline underline-offset-4 decoration-pink-500"
+                className="text-sm sm:text-base md:text-lg font-bold text-white hover:text-purple-300 transition-colors inline-flex items-center gap-2 underline underline-offset-4 decoration-pink-500 break-all"
               >
-                <svg className="w-5 h-5 text-pink-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg className="w-4 h-4 sm:w-5 h-5 text-pink-500 animate-pulse shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
                 contacto@noztraducciones.com
