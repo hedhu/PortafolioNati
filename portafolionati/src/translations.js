@@ -31,8 +31,8 @@ export const translations = {
     
     contactTitle: "¿Tienes un Proyecto en Mente?",
     contactSubtitle: "Hablemos de tus necesidades de traducción. Ponte en contacto para obtener un presupuesto a tu medida.",
-    contactNamePlaceholder: "Tu Nombre",
-    contactEmailPlaceholder: "Tu Correo Electrónico",
+    contactNamePlaceholder: "Nombre",
+    contactEmailPlaceholder: "Correo Electrónico",
     contactMsgPlaceholder: "Describe tu proyecto (tipo de texto, cantidad aproximada de palabras...)",
     contactButton: "Enviar Mensaje",
     contactDirect: "Contacto Directo:",
@@ -72,8 +72,8 @@ export const translations = {
     
     contactTitle: "Have a Project in Mind?",
     contactSubtitle: "Let's discuss your translation needs. Get in touch for a tailored quote.",
-    contactNamePlaceholder: "Your Name",
-    contactEmailPlaceholder: "Your Email Address",
+    contactNamePlaceholder: "Name",
+    contactEmailPlaceholder: "Email Address",
     contactMsgPlaceholder: "Describe your project (type of text, approximate word count...)",
     contactButton: "Send Message",
     contactDirect: "Direct Contact:",

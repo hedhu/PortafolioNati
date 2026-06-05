@@ -6,10 +6,13 @@ function App() {
   const [lang, setLang] = useState('es')
   const [activeCategory, setActiveCategory] = useState('all')
   const [expandedProject, setExpandedProject] = useState(null)
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
   
-  // Simple form state for simulation
+  // Contact form state
   const [formData, setFormData] = useState({ name: '', email: '', message: '' })
   const [formSubmitted, setFormSubmitted] = useState(false)
+  const [formError, setFormError] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
   useEffect(() => {
     document.title = translations[lang].title
@@ -19,14 +22,45 @@ function App() {
     ? projects
     : projects.filter(p => p.category === activeCategory)
 
-  const handleFormSubmit = (e) => {
+  const handleFormSubmit = async (e) => {
     e.preventDefault()
-    if (formData.name && formData.email && formData.message) {
-      setFormSubmitted(true)
-      setTimeout(() => {
-        setFormSubmitted(false)
+    if (!formData.name || !formData.email || !formData.message) return
+
+    setIsSubmitting(true)
+    setFormError(false)
+
+    try {
+      const response = await fetch("https://api.web3forms.com/submit", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json"
+        },
+        body: JSON.stringify({
+          access_key: "a2f72826-9ac2-4c13-9e32-2bece01f6e1e",
+          from_name: "Portafolio Web (NOZ)",
+          subject: `Consulta de ${formData.name} - Portafolio`,
+          replyto: formData.email,
+          nombre: formData.name,
+          correo: formData.email,
+          mensaje: formData.message
+        })
+      });
+
+      const result = await response.json();
+      if (result.success) {
+        setFormSubmitted(true)
         setFormData({ name: '', email: '', message: '' })
-      }, 5000)
+        setTimeout(() => {
+          setFormSubmitted(false)
+        }, 5000)
+      } else {
+        setFormError(true)
+      }
+    } catch (error) {
+      setFormError(true)
+    } finally {
+      setIsSubmitting(false)
     }
   }
 
@@ -74,8 +108,58 @@ function App() {
               </svg>
               {lang === 'es' ? '🇺🇸 EN' : '🇪🇸 ES'}
             </button>
+
+            {/* Mobile Menu Button */}
+            <button 
+              onClick={() => setIsMenuOpen(!isMenuOpen)}
+              className="md:hidden p-2.5 text-gray-300 hover:text-white bg-white/10 hover:bg-white/20 rounded-full border border-white/20 active:scale-95 transition-all cursor-pointer shadow-lg"
+              aria-label="Toggle Menu"
+            >
+              {isMenuOpen ? (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              ) : (
+                <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                </svg>
+              )}
+            </button>
           </div>
 
+        </div>
+
+        {/* Mobile Navigation Links Dropdown */}
+        <div 
+          className={`grid transition-all duration-300 ease-in-out md:hidden ${
+            isMenuOpen 
+              ? 'grid-rows-[1fr] opacity-100 mt-4 pt-4 border-t border-white/10' 
+              : 'grid-rows-[0fr] opacity-0 pointer-events-none mt-0 pt-0 border-t-0 border-white/0'
+          }`}
+        >
+          <div className="overflow-hidden flex flex-col gap-4 text-center text-sm font-medium">
+            <a 
+              href="#about" 
+              onClick={() => setIsMenuOpen(false)}
+              className="py-2 text-gray-300 hover:text-white transition-colors hover:underline underline-offset-4 decoration-amber-400 decoration-2"
+            >
+              {translations[lang].personalInfoTitle}
+            </a>
+            <a 
+              href="#gallery" 
+              onClick={() => setIsMenuOpen(false)}
+              className="py-2 text-gray-300 hover:text-white transition-colors hover:underline underline-offset-4 decoration-amber-400 decoration-2"
+            >
+              {translations[lang].translationsTitle}
+            </a>
+            <a 
+              href="#contact" 
+              onClick={() => setIsMenuOpen(false)}
+              className="py-2 text-gray-300 hover:text-white transition-colors hover:underline underline-offset-4 decoration-amber-400 decoration-2"
+            >
+              {translations[lang].contactTitle}
+            </a>
+          </div>
         </div>
       </nav>
 
@@ -94,13 +178,13 @@ function App() {
             {translations[lang].heroTitle.split(' ').map((word, i) => {
               const threshold = lang === 'es' ? 4 : 2;
               return i >= threshold ? (
-                <span key={i} className="bg-gradient-to-r from-amber-200 via-pink-200 to-purple-400 bg-clip-text text-transparent block sm:inline">{word} </span>
+                <span key={i} className="bg-gradient-to-r from-amber-200 via-pink-200 to-purple-400 bg-clip-text text-transparent inline">{word} </span>
               ) : (
                 word + ' '
               );
             })}
           </h1>
-          
+
           {/* Subtitle */}
           <p className="text-lg text-white/90 leading-relaxed max-w-2xl font-light drop-shadow-sm">
             {translations[lang].heroSubtitle}
@@ -384,16 +468,29 @@ function App() {
               
               <button 
                 type="submit"
-                className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:from-purple-500 hover:to-pink-500 transition-all duration-300 shadow-lg text-sm cursor-pointer hover:shadow-[0_0_15px_rgba(236,72,153,0.3)]"
+                disabled={isSubmitting}
+                className="w-full py-3 bg-gradient-to-r from-purple-600 to-pink-600 text-white font-bold rounded-xl hover:from-purple-500 hover:to-pink-500 transition-all duration-300 shadow-lg text-sm cursor-pointer hover:shadow-[0_0_15px_rgba(236,72,153,0.3)] disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {translations[lang].contactButton}
+                {isSubmitting 
+                  ? (lang === 'es' ? 'Enviando...' : 'Sending...') 
+                  : translations[lang].contactButton
+                }
               </button>
 
               {formSubmitted && (
                 <div className="p-3 bg-green-500/10 border border-green-500/20 rounded-xl text-green-400 text-xs text-center font-semibold animate-fadeIn">
                   {lang === 'es' 
-                    ? "¡Mensaje enviado con éxito! (Demostración interactiva)" 
-                    : "Message sent successfully! (Interactive demo)"
+                    ? "¡Mensaje enviado con éxito! Te responderé lo antes posible." 
+                    : "Message sent successfully! I will reply as soon as possible."
+                  }
+                </div>
+              )}
+
+              {formError && (
+                <div className="p-3 bg-red-500/10 border border-red-500/20 rounded-xl text-red-400 text-xs text-center font-semibold animate-fadeIn">
+                  {lang === 'es' 
+                    ? "Hubo un error al enviar el mensaje. Por favor, inténtalo de nuevo o envíame un correo directo." 
+                    : "There was an error sending your message. Please try again or email me directly."
                   }
                 </div>
               )}
@@ -408,13 +505,13 @@ function App() {
                 {translations[lang].contactDirectText}
               </p>
               <a 
-                href="mailto:contacto@ejemplo.com" 
+                href="mailto:contacto@noztraducciones.com" 
                 className="text-lg font-bold text-white hover:text-purple-300 transition-colors inline-flex items-center gap-2 underline underline-offset-4 decoration-pink-500"
               >
                 <svg className="w-5 h-5 text-pink-500 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                 </svg>
-                contacto@ejemplo.com
+                contacto@noztraducciones.com
               </a>
             </div>
 
@@ -436,7 +533,7 @@ function App() {
             LinkedIn
           </a>
           <a 
-            href="mailto:contacto@ejemplo.com" 
+            href="mailto:contacto@noztraducciones.com" 
             className="text-xs font-semibold text-pink-300 hover:text-pink-200 bg-pink-500/10 hover:bg-pink-500/20 border border-pink-500/20 px-4 py-2 rounded-xl transition-all active:scale-95 shadow-sm"
           >
             Email
