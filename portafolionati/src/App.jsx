@@ -164,7 +164,7 @@ function App() {
       </nav>
 
       {/* Hero Section */}
-      <section id="hero" className="pt-36 sm:pt-40 md:pt-44 pb-10 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative">
+      <section id="hero" className="pt-[136px] sm:pt-36 md:pt-44 pb-10 px-6 max-w-7xl mx-auto flex flex-col lg:flex-row items-center justify-between gap-12 relative">
         <div className="flex-1 space-y-6 text-left">
           
           {/* Badge */}
